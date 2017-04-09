@@ -1,19 +1,20 @@
 package com.example.tests;
 
-import com.example.models.Dataset;
-import com.example.models.OurResponse;
-import com.example.services.BaseService;
-import com.example.services.DataSetsService;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import okhttp3.Request;
-import org.apache.log4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import retrofit2.Call;
+        import com.example.models.Dataset;
+        import com.example.models.OurResponse;
+        import com.example.services.BaseService;
+        import com.example.services.DataSetsService;
+        import com.google.gson.Gson;
+        import com.google.gson.JsonElement;
+        import okhttp3.Request;
+        import org.apache.log4j.Logger;
+        import org.testng.Assert;
+        import org.testng.annotations.Test;
+        import retrofit2.Call;
+        import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
+        import java.io.IOException;
+        import java.lang.reflect.Field;
 
 public class DatasetsTest {
     private final static Logger logger = Logger.getLogger(DatasetsTest.class);
@@ -32,7 +33,11 @@ public class DatasetsTest {
                 "LastUpdateDate",
                 "SefUrl",
                 "IdentificationNumber"};
-        DataSetsService service = BaseService.getRetrofit().create(DataSetsService.class);
+        DataSetsService service = BaseService.getRetrofit()
+                .baseUrl("https://apidata.mos.ru/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(DataSetsService.class);
 
         try {
             Call<OurResponse<Dataset>> responseCall = service.getDataSets(1, 1);

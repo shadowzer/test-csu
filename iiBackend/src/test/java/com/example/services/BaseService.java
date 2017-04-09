@@ -4,14 +4,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseService {
-    private static Retrofit retrofit;
+    private static Retrofit.Builder retrofit;
 
-    public static Retrofit getRetrofit() {
+    public static Retrofit.Builder getRetrofit() {
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("https://apidata.mos.ru/v1/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            retrofit = new Retrofit.Builder();
         }
         return retrofit;
     }
