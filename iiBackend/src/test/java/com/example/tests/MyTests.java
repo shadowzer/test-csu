@@ -66,6 +66,7 @@ public class MyTests {
                     true);
         } catch (IOException e) {
             e.printStackTrace();
+            Assert.assertEquals(true, false);
         }
     }
 
@@ -93,6 +94,7 @@ public class MyTests {
                     true);
         } catch (IOException e) {
             e.printStackTrace();
+            Assert.assertEquals(true, false);
         }
     }
 }
