@@ -7,6 +7,8 @@ import com.example.services.MyService;
 import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import org.testng.TestException;
+import org.testng.TestNGException;
 import org.testng.annotations.Test;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +47,7 @@ public class MyTests {
         }
 
         // if checkList пуст => мы отметили в нем все ожидаемые результаты от сервера
-        Assert.assertEquals(checkList.isEmpty(), true);
+        Assert.assertEquals(checkList.isEmpty(), true, "Доступны не все нужные варианты экспорта");
     }
 
     @Test  // проверка картинки
@@ -56,6 +58,7 @@ public class MyTests {
                 .build();
 
         MyService service = retrofit.create(MyService.class);
+        // https://evp.mos.ru/upload/evp_navigator/561/6c4e7955d16c6a2ff187c51fe34bee95.png
         try {
             Response<String> answer = service.getImage().execute();//.raw().toString();
             // проверить саму кодировку картинки не получилось, т.к. в response.body() лежит PNG
@@ -66,7 +69,7 @@ public class MyTests {
                     true);
         } catch (IOException e) {
             e.printStackTrace();
-            Assert.assertEquals(true, false);
+            throw new TestException("Не удалось выполнить запрос на получение картинки по адресу https://evp.mos.ru/upload/evp_navigator/561/6c4e7955d16c6a2ff187c51fe34bee95.png", e);
         }
     }
 
@@ -94,7 +97,7 @@ public class MyTests {
                     true);
         } catch (IOException e) {
             e.printStackTrace();
-            Assert.assertEquals(true, false);
+            throw new TestException("Не удалось выполнить запрос на получение паспорта данных вызовов подразделений пожарно-спасательного гарнизона города Москвы по административным округам", e);
         }
     }
 }
