@@ -1,6 +1,7 @@
 package com.example.tests;
 
 import com.example.models.ExportOption;
+import com.example.models.FirefighterDataset;
 import com.example.services.BaseService;
 import com.example.services.MyService;
 import com.google.gson.GsonBuilder;
@@ -62,6 +63,33 @@ public class MyTests {
             Assert.assertEquals(answer.raw().code() == 200 &&
                             answer.raw().body().contentType().type().equals("image") &&
                             answer.raw().body().contentType().subtype().equals("png"),
+                    true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getFirefighterDataSetPassportTest() {
+        final String EXPECTED_PUBLISHER_FIO = "Финогенова Татьяна Владимировна";
+        final String EXPECTED_TITLE = "Данные вызовов подразделений пожарно-спасательного гарнизона города Москвы по административным округам";
+        final int LATEST_RELEASE_NUMBER = 11;
+        final String LATEST_RELEASE_VALID = "14.05.2017";
+
+        Retrofit retrofit = BaseService.getRetrofit()
+                .baseUrl("https://data.mos.ru")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MyService service = retrofit.create(MyService.class);
+        // https://data.mos.ru/apiproxy/opendata/7710474791-dannye-vyzovov-pojarnoy-slujby-po-ao-goroda-moskvy/meta.json
+        try {
+            Response<FirefighterDataset> answer = service.getFirefighterDataSetPassport().execute();
+            Assert.assertEquals(answer.body().getTitle().equals(EXPECTED_TITLE) &&
+                            answer.body().getPublisher().get(0).getFIO().equals(EXPECTED_PUBLISHER_FIO) &&
+                            answer.body().getData().get(0).getReleaseNumber() == LATEST_RELEASE_NUMBER &&
+                            answer.body().getData().get(0).getValid().equals(LATEST_RELEASE_VALID) &&
+                            answer.body().getData().get(0).getValid().equals(answer.body().getValid()),  // поле valid в первом элементе массива data (самый свежий релиз) должно быть равно полю valid у всего DataSet
                     true);
         } catch (IOException e) {
             e.printStackTrace();
