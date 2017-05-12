@@ -27,7 +27,7 @@ public class MainPageTest extends BaseTest {
         SelenideElement languageSwitcher = page.getLanguageSwitcher();
         languageSwitcher.click();
         page.waitPageLoaded();
-        Assert.assertEquals(page.getDataLink().getText(), "DATA");
+        Assert.assertEquals(page.getDataLink().getText(), "DATA", "Test on switch language to ENG");
     }
 
     @Test
@@ -60,7 +60,7 @@ public class MainPageTest extends BaseTest {
         JsonPage jsonPage = page(JsonPage.class);
         jsonPage.registerNewTab();
 
-        Assert.assertEquals(jsonPage.getJsonText().contains("\"Title\":\"" + subCategory + "\""), true);
+        Assert.assertEquals(jsonPage.getJsonText().contains("\"Title\":\"" + subCategory + "\""), true, "Test on opening /meta.json for subCategory: " + subCategory);
     }
 
     @Test
@@ -81,6 +81,6 @@ public class MainPageTest extends BaseTest {
         dataPage.getXlsxOption().click();
         sleep(1000);
 
-        Assert.assertEquals(dataPage.isFileDownloaded(downloadDirectoryPath, fileName), true);
+        Assert.assertEquals(dataPage.isFileDownloaded(downloadDirectoryPath, fileName), true, "Xlsx file download test");
     }
 }
