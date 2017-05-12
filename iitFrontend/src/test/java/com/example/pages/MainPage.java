@@ -1,9 +1,12 @@
 package com.example.pages;
 
+import com.codeborne.selenide.SelenideElement;
 import com.example.components.Categories;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selectors.byCssSelector;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage extends AbstractPage {
@@ -26,5 +29,13 @@ public class MainPage extends AbstractPage {
         Categories categories = new Categories();
         categories.setSelf($("#categories"));
         return categories;
+    }
+
+    public SelenideElement getLanguageSwitcher() {
+        return $(byCssSelector("#generalMenu > ul.culture-list > li.inactivevisible > a"));
+    }
+
+    public SelenideElement getDataLink() {
+        return $(byCssSelector("#generalMenu > ul.section-list > li:nth-child(1) > a"));
     }
 }
