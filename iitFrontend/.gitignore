@@ -1,6 +1,4 @@
 target/
 .idea/
-*.xml
 *.log
 *.iml
-src/main/resources/drivers/
